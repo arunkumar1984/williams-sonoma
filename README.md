@@ -2,7 +2,7 @@
 
 * Basic Automation Project Structure*
 
-** Java 7**
+**Java 7**
 
 * Maven
 * TestNG
