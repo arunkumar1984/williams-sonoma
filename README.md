@@ -1,6 +1,11 @@
-# Basic-Project (Master branch)
+# Automation Project (AV-AUTO-PROJECT branch)
 
-##Warm up Day 04: Basic Project -- 05/23/2016
-To stock up various classes to be created during the course
+* Basic Automation Project Structure*
+
+** Java 7**
+
+* Maven
+* TestNG
+* Selenium WebDriver
 
 [Arunkumar Venkatraman](http://sqasolution.com)
