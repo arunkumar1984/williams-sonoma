@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 import java.util.regex.*;
 
-public class Test {
+public class BasicTest {
 	// ArayList to hold test data
 	public static ArrayList<Object> tests = new ArrayList<Object>();
 
