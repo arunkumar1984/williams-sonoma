@@ -88,7 +88,7 @@ public class DataHelper {
 		if (dataType.equals(Integer.TYPE)) {
 			return Integer.parseInt(parameter);
 		} else if (dataType.equals(Boolean.TYPE)) {
-			return Boolean.getBoolean(parameter);
+			return Boolean.parseBoolean(parameter);
 		} else {
 			System.out.println("Data type is a String or not recognized, returning a String for (" + parameter + ")");
 			return parameter;
