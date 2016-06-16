@@ -28,7 +28,7 @@ public class DataHelperTest {
 		try {
 			System.out.println("Number " + number + ", is Prime? (" + isPrime + ")");
 			boolean actualResult = isPrime(Integer.parseInt(number));
-			Assert.assertEquals(actualResult, Boolean.getBoolean(isPrime), "Number is not prime based on data set.");
+			Assert.assertEquals(actualResult, Boolean.parseBoolean(isPrime), "Number is not prime based on data set.");
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		}
@@ -44,7 +44,7 @@ public class DataHelperTest {
 	private boolean isPrime(int number) {
 		boolean isPrime = true;
 		for (int i = 2; i <= number / 2; i++) {
-			if (number % i != 0) {
+			if (number % i == 0) {
 				isPrime = false;
 			}
 		}
