@@ -23,12 +23,22 @@ public class DataHelperTest {
 		return data;
 	}
 
+	@DataProvider(name = "textDataTypedWithString")
+	public Object[][] getDataTypedWithString() {
+		Object[][] data;
+		data = DataHelper.getTextFileData("src/main/resources/", "data2.csv", TextFormat.CSV, true, String.class,
+				Integer.TYPE, Boolean.TYPE);
+		DisplayHelper.multArray(data);
+		return data;
+	}
+
 	@Test(dataProvider = "textData")
 	public void testReadingFile(String number, String isPrime) {
 		try {
 			System.out.println("Number " + number + ", is Prime? (" + isPrime + ")");
 			boolean actualResult = isPrime(Integer.parseInt(number));
 			Assert.assertEquals(actualResult, Boolean.parseBoolean(isPrime), "Number is not prime based on data set.");
+
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		}
@@ -36,6 +46,13 @@ public class DataHelperTest {
 
 	@Test(dataProvider = "textDataTyped")
 	public void testReadingFileTyped(int number, boolean isPrime) {
+		System.out.println("Number " + number + ", is Prime? (" + isPrime + ")");
+		boolean actualResult = isPrime(number);
+		Assert.assertEquals(actualResult, isPrime, "Number is not prime based on data set.");
+	}
+
+	@Test(dataProvider = "textDataTypedWithString")
+	public void testReadingFileTypedWithString(String title, int number, boolean isPrime) {
 		System.out.println("Number " + number + ", is Prime? (" + isPrime + ")");
 		boolean actualResult = isPrime(number);
 		Assert.assertEquals(actualResult, isPrime, "Number is not prime based on data set.");

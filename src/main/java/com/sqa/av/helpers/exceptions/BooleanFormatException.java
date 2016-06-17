@@ -17,9 +17,9 @@ package com.sqa.av.helpers.exceptions;
  * <p>
  * //ADDD (description of core methods)
  * 
- * @author      Venkatraman, Arunkumar
- * @version     1.0.0
- * @since       1.0
+ * @author Venkatraman, Arunkumar
+ * @version 1.0.0
+ * @since 1.0
  *
  */
 public class BooleanFormatException extends Exception {

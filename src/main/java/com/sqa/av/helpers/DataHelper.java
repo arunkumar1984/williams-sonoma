@@ -1,11 +1,11 @@
 /**
  *   File Name: DataHelper.java<br>
  *
- *   Venkatraman, Arunkumar<br>
+ *   LastName, FirstName<br>
  *   Java Boot Camp Exercise<br>
  *   Instructor: Jean-francois Nepton<br>
  *   Created: Jun 13, 2016
- *   
+ *
  */
 
 package com.sqa.av.helpers;
@@ -23,8 +23,8 @@ import com.sqa.av.helpers.exceptions.*;
  * //ADDD (description of core fields)
  * <p>
  * //ADDD (description of core methods)
- * 
- * @author Venkatraman, Arunkumar
+ *
+ * @author LastName, FirstName
  * @version 1.0.0
  * @since 1.0
  *
@@ -39,26 +39,21 @@ public class DataHelper {
 			Boolean hasLabels, Object... dataTypes) {
 		// Process data
 		Object[][] data;
-
-		// TODO Implement CSV format
+		// Collect data lines from text document supplied
 		ArrayList<String> lines = openFileAndCollectData(fileLocation, fileName);
 		switch (textFormat) {
 		case CSV:
 			data = parseCSVData(lines, hasLabels, dataTypes);
 			break;
-
 		case XML:
 			data = parseXMLData(lines, hasLabels);
 			break;
-
 		case TAB:
-			data = parseTABData(lines, hasLabels);
+			data = parseTabData(lines, hasLabels);
 			break;
-
 		case JSON:
 			data = parseJSONData(lines, hasLabels);
 			break;
-
 		default:
 			data = null;
 			break;
@@ -66,15 +61,6 @@ public class DataHelper {
 		return data;
 	}
 
-	// // TODO check for labels first line
-	// if (hasLabels) {
-	// // Remove any labels present
-	// lines.remove(0);
-	// }
-	// System.out.println("My Labesl:" + lines);
-
-	// Obect[][] data =
-	// getTextFileData("src/main/resource/","data.csv",TextFormat.CSV")
 	public static Object[][] getTextFileData(String fileLocation, String fileName, TextFormat textFormat,
 			Object... dataTypes) {
 		return getTextFileData(fileLocation, fileName, textFormat, false, dataTypes);
@@ -90,19 +76,23 @@ public class DataHelper {
 			if (dataType.equals(Integer.TYPE)) {
 				return Integer.parseInt(parameter);
 			} else if (dataType.equals(Boolean.TYPE)) {
-				if (parameter.equalsIgnoreCase("true") || parameter.equalsIgnoreCase("false")) {
+				if (parameter.equalsIgnoreCase("true") | parameter.equalsIgnoreCase("false")) {
 					return Boolean.parseBoolean(parameter);
 				} else {
 					throw new BooleanFormatException();
 				}
+
 			} else {
 				System.out
 						.println("Data type is a String or not recognized, returning a String for (" + parameter + ")");
 				return parameter;
 			}
 		} catch (NumberFormatException e) {
-			System.out.println("Number is not in the correct format (" + parameter + ")");
-			e.printStackTrace();
+			System.err.println("Number is not in correct format (" + parameter + ")");
+			return 0;
+		} catch (BooleanFormatException e) {
+			System.err.println("Boolean value is not a correct String (" + parameter + ")");
+			return false;
 		}
 	}
 
@@ -145,11 +135,11 @@ public class DataHelper {
 
 	/**
 	 * @param lines
-	 * @param hasLabels
 	 * @param objects
 	 * @return
 	 */
 	private static Object[][] parseCSVData(ArrayList<String> lines, boolean hasLabels, Object[] dataTypes) {
+
 		ArrayList<Object> results = new ArrayList<Object>();
 		// Check for labels on first line
 		if (hasLabels) {
@@ -158,7 +148,7 @@ public class DataHelper {
 		}
 
 		// String to be scanned to find the pattern.
-		String pattern = "(,*)([a-zA-Z0-9]+)(,*)";
+		String pattern = "(,*)([a-zA-Z0-9\\s]+)(,*)";
 
 		// Create a Pattern object
 		Pattern r = Pattern.compile(pattern);
@@ -204,7 +194,7 @@ public class DataHelper {
 	 * @param hasLabels
 	 * @return
 	 */
-	private static Object[][] parseTABData(ArrayList<String> lines, Boolean hasLabels) {
+	private static Object[][] parseTabData(ArrayList<String> lines, Boolean hasLabels) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -218,5 +208,4 @@ public class DataHelper {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }
