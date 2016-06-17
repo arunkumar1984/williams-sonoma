@@ -15,6 +15,7 @@ import java.util.*;
 import java.util.regex.*;
 
 import com.sqa.av.helpers.data.*;
+import com.sqa.av.helpers.exceptions.*;
 
 /**
  * DataHelper //ADDD (description of class)
@@ -85,13 +86,23 @@ public class DataHelper {
 	 * @return
 	 */
 	private static Object convertDataType(String parameter, Object dataType) {
-		if (dataType.equals(Integer.TYPE)) {
-			return Integer.parseInt(parameter);
-		} else if (dataType.equals(Boolean.TYPE)) {
-			return Boolean.parseBoolean(parameter);
-		} else {
-			System.out.println("Data type is a String or not recognized, returning a String for (" + parameter + ")");
-			return parameter;
+		try {
+			if (dataType.equals(Integer.TYPE)) {
+				return Integer.parseInt(parameter);
+			} else if (dataType.equals(Boolean.TYPE)) {
+				if (parameter.equalsIgnoreCase("true") || parameter.equalsIgnoreCase("false")) {
+					return Boolean.parseBoolean(parameter);
+				} else {
+					throw new BooleanFormatException();
+				}
+			} else {
+				System.out
+						.println("Data type is a String or not recognized, returning a String for (" + parameter + ")");
+				return parameter;
+			}
+		} catch (NumberFormatException e) {
+			System.out.println("Number is not in the correct format (" + parameter + ")");
+			e.printStackTrace();
 		}
 	}
 
@@ -159,12 +170,12 @@ public class DataHelper {
 			while (m.find()) {
 				if (dataTypes.length > 0) {
 					try {
-						curMatches.add(convertDataType(m.group(2), dataTypes[curDataType]));
+						curMatches.add(convertDataType(m.group(2).trim(), dataTypes[curDataType]));
 					} catch (Exception e) {
 						System.out.println("DataTypes provided do not match parsed data results.");
 					}
 				} else {
-					curMatches.add(m.group(2));
+					curMatches.add(m.group(2).trim());
 				}
 				curDataType++;
 			}
