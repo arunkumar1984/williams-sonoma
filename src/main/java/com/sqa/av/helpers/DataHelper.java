@@ -34,6 +34,61 @@ public class DataHelper {
 		return getTextFileData(fileLocation, fileName, textFormat, false);
 	}
 
+	// // Trial Begin
+	// public static Object[][] getFileData(String fileLocation, String
+	// fileName, Boolean hasLabels) {
+	// Object[][] data;
+	// ArrayList<String> lines = openFileAndCollectData(fileLocation, fileName);
+	//
+	// ArrayList<Object> results = new ArrayList<Object>();
+	// // Check for labels on first line
+	// if (hasLabels) {
+	// // Remove any labels present
+	// lines.remove(0);
+	// }
+	//
+	//
+	// for (int i = 0; i < lines.size(); i++) {
+	// int curDataType = 0;
+	// ArrayList<Object> curMatches = new ArrayList<Object>();
+	//
+	// while (m.find()) {
+	// if (dataTypes.length > 0) {
+	// try {
+	//
+	// switch (cell.getCellType()) {
+	// case Cell.CELL_TYPE_BOOLEAN:
+	// // System.out.println("Calling a boolean value!!!!");
+	// System.out.print(cell.getBooleanCellValue() + "\t\t\t");
+	// break;
+	// case Cell.CELL_TYPE_NUMERIC:
+	// System.out.print(cell.getNumericCellValue() + "\t\t\t");
+	// break;
+	// case Cell.CELL_TYPE_STRING:
+	// System.out.print(cell.getStringCellValue() + "\t\t\t");
+	// break;
+	// } catch (Exception e) {
+	// System.out.println("DataTypes provided do not match parsed data
+	// results.");
+	// }
+	// } else {
+	// curMatches.add(m.group(2));
+	// }
+	// curDataType++;
+	// }
+	// Object[] resultsObj = new Object[curMatches.size()];
+	// curMatches.toArray(resultsObj);
+	// results.add(resultsObj);
+	// }
+	// System.out.println("Results:" + results);
+	// Object[][] resultsObj = new Object[results.size()][];
+	// results.toArray(resultsObj);
+	// return resultsObj;
+	// }
+	//
+	// }
+	// // Trial End
+
 	public static Object[][] getTextFileData(String fileLocation, String fileName, TextFormat textFormat,
 			Boolean hasLabels, Object... dataTypes) {
 		// Process data
