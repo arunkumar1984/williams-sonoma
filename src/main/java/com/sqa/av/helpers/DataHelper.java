@@ -14,6 +14,9 @@ import java.io.*;
 import java.util.*;
 import java.util.regex.*;
 
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.*;
+
 import com.sqa.av.helpers.data.*;
 
 /**
@@ -30,64 +33,110 @@ import com.sqa.av.helpers.data.*;
  */
 public class DataHelper {
 
+	public static Object[][] getExcelFileData(String fileLocation, String fileName, Boolean hasLabels) {
+		// Object[][] data = { { "Square", 49, 7, 0 }, { "Circle", 113, 6, 0 },
+		// { "Rectangle", 45, 9, 5 } };
+		ArrayList<Object> results = new ArrayList<Object>();
+		Object[][] resultsObject;
+
+		// TODO Implement Helper Method
+
+		try {
+
+			// Get File based on class loader (Setup Needed)
+			// ClassLoader classLoader = ApachePOITest.class.getClassLoader();
+			//
+			// Get InputStream via Class Loader (Setup Needed), meaning resource
+			// folder:
+			// InputStream file =
+			// classLoader.getResourceAsStream("poi-example.xls");
+
+			// Get the file using basic File and relative path to directory,
+			// meaning root folder
+			String fullFilePath = fileLocation + fileName;
+			InputStream newExcelFormatFile = new FileInputStream(new File(fullFilePath));
+
+			// Reads an XLS file
+			// InputStream newExcelFormatFile = new FileInputStream(new
+			// File("poi-example.xlsx"));
+
+			// Reads an XLSX file
+			// InputStream newExcelFormatFile = new FileInputStream(new
+			// File("poi-example.xlsx"));
+
+			// Get the workbook instance for XLS file.To support XLS file, use
+			// HSSF instead of XSSF
+			XSSFWorkbook workbook = new XSSFWorkbook(newExcelFormatFile);
+
+			// Get first sheet from the workbook. The parameter (0) indicated
+			// first sheet. To use sheet 'name', use getSheet(<NAME>)
+			XSSFSheet sheet = workbook.getSheetAt(0);
+
+			// Iterate through each rows from first sheet
+			Iterator<Row> rowIterator = sheet.iterator();
+
+			// Move down one row if there is a label
+			if (hasLabels) {
+				rowIterator.next();
+			}
+
+			while (rowIterator.hasNext()) {
+				ArrayList<Object> rowData = new ArrayList<Object>();
+
+				Row row = rowIterator.next();
+
+				// For each row, iterate through each columns
+				Iterator<Cell> cellIterator = row.cellIterator();
+				while (cellIterator.hasNext()) {
+					// Gather and print contents
+					Cell cell = cellIterator.next();
+
+					switch (cell.getCellType()) {
+					case Cell.CELL_TYPE_BOOLEAN:
+						// System.out.println("Calling a boolean value!!!!");
+						System.out.print(cell.getBooleanCellValue() + "\t\t\t");
+						rowData.add(cell.getBooleanCellValue());
+						break;
+					case Cell.CELL_TYPE_NUMERIC:
+						System.out.print((int) cell.getNumericCellValue() + "\t\t\t");
+						rowData.add((int) cell.getNumericCellValue());
+						break;
+					case Cell.CELL_TYPE_STRING:
+						System.out.print(cell.getStringCellValue() + "\t\t\t");
+						rowData.add(cell.getStringCellValue());
+						break;
+					}
+				}
+				Object[] rowDataObject = new Object[rowData.size()];
+				rowData.toArray(rowDataObject);
+				results.add(rowDataObject);
+				System.out.println("");
+			}
+			// Close File Read Stream
+			newExcelFormatFile.close();
+			// Create an OutputStream to write
+			FileOutputStream out = new FileOutputStream(new File("src/main/resources/excel-output.xlsx"));
+
+			// Write the workbook
+			workbook.write(out);
+			// Close output Stream
+			out.close();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		resultsObject = new Object[results.size()][];
+		results.toArray(resultsObject);
+		return resultsObject;
+
+	}
+
 	public static Object[][] getTextFileData(String fileLocation, String fileName, TextFormat textFormat) {
 		return getTextFileData(fileLocation, fileName, textFormat, false);
 	}
-
-	// // Trial Begin
-	// public static Object[][] getFileData(String fileLocation, String
-	// fileName, Boolean hasLabels) {
-	// Object[][] data;
-	// ArrayList<String> lines = openFileAndCollectData(fileLocation, fileName);
-	//
-	// ArrayList<Object> results = new ArrayList<Object>();
-	// // Check for labels on first line
-	// if (hasLabels) {
-	// // Remove any labels present
-	// lines.remove(0);
-	// }
-	//
-	//
-	// for (int i = 0; i < lines.size(); i++) {
-	// int curDataType = 0;
-	// ArrayList<Object> curMatches = new ArrayList<Object>();
-	//
-	// while (m.find()) {
-	// if (dataTypes.length > 0) {
-	// try {
-	//
-	// switch (cell.getCellType()) {
-	// case Cell.CELL_TYPE_BOOLEAN:
-	// // System.out.println("Calling a boolean value!!!!");
-	// System.out.print(cell.getBooleanCellValue() + "\t\t\t");
-	// break;
-	// case Cell.CELL_TYPE_NUMERIC:
-	// System.out.print(cell.getNumericCellValue() + "\t\t\t");
-	// break;
-	// case Cell.CELL_TYPE_STRING:
-	// System.out.print(cell.getStringCellValue() + "\t\t\t");
-	// break;
-	// } catch (Exception e) {
-	// System.out.println("DataTypes provided do not match parsed data
-	// results.");
-	// }
-	// } else {
-	// curMatches.add(m.group(2));
-	// }
-	// curDataType++;
-	// }
-	// Object[] resultsObj = new Object[curMatches.size()];
-	// curMatches.toArray(resultsObj);
-	// results.add(resultsObj);
-	// }
-	// System.out.println("Results:" + results);
-	// Object[][] resultsObj = new Object[results.size()][];
-	// results.toArray(resultsObj);
-	// return resultsObj;
-	// }
-	//
-	// }
-	// // Trial End
 
 	public static Object[][] getTextFileData(String fileLocation, String fileName, TextFormat textFormat,
 			Boolean hasLabels, Object... dataTypes) {
@@ -125,7 +174,7 @@ public class DataHelper {
 	// // Remove any labels present
 	// lines.remove(0);
 	// }
-	// System.out.println("My Labesl:" + lines);
+	// System.out.println("My Labels:" + lines);
 
 	// Obect[][] data =
 	// getTextFileData("src/main/resource/","data.csv",TextFormat.CSV")
