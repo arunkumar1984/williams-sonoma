@@ -8,7 +8,7 @@
  *
  */
 
-package com.sqa.av.helpers;
+package com.sqa.av.helpers.data;
 
 import java.io.*;
 import java.sql.*;
@@ -18,7 +18,6 @@ import java.util.regex.*;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.*;
 
-import com.sqa.av.helpers.data.*;
 import com.sqa.av.helpers.exceptions.*;
 
 /**
@@ -212,9 +211,6 @@ public class DataHelper {
 			break;
 		case XML:
 			data = parseXMLData(lines, hasLabels);
-			break;
-		case TAB:
-			data = parseTabData(lines, hasLabels);
 			break;
 		case JSON:
 			data = parseJSONData(lines, hasLabels);
