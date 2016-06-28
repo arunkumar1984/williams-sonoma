@@ -58,16 +58,8 @@ public class BasicTest {
 		// TODO Auto-generated constructor stub
 	}
 
-	@BeforeMethod
-	public void setupTest() {
-		// Delete all saved cookies
-		getDriver().manage().deleteAllCookies();
-		// Go to base URL
-		getDriver().get(getBaseURL());
-	}
-
 	@SuppressWarnings("unused")
-	private String closeAlertAndGetItsText() {
+	public String closeAlertAndGetItsText() {
 		try {
 			Alert alert = this.driver.switchTo().alert();
 			String alertText = alert.getText();
@@ -83,7 +75,7 @@ public class BasicTest {
 	}
 
 	@SuppressWarnings("unused")
-	private boolean isAlertPresent() {
+	public boolean isAlertPresent() {
 		try {
 			this.driver.switchTo().alert();
 			return true;
@@ -93,12 +85,20 @@ public class BasicTest {
 	}
 
 	@SuppressWarnings("unused")
-	private boolean isElementPresent(By by) {
+	public boolean isElementPresent(By by) {
 		try {
 			this.driver.findElement(by);
 			return true;
 		} catch (NoSuchElementException e) {
 			return false;
 		}
+	}
+
+	@BeforeMethod
+	public void setupTest() {
+		// Delete all saved cookies
+		getDriver().manage().deleteAllCookies();
+		// Go to base URL
+		getDriver().get(getBaseURL());
 	}
 }
