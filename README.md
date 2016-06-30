@@ -1,6 +1,6 @@
-# Automation Project (AV-AUTO-PROJECT branch)
+# Williams Sonoma Automation Project
 
-* Basic Automation Project Structure*
+* An Automation Project to test Williams-Sonoma website*
 
 **Java 7**
 
